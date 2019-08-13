@@ -1,5 +1,8 @@
 package com.oasis.hrm.dao.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Emp {
@@ -12,15 +15,20 @@ public class Emp {
     private String ename;
 
     private String esex;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date ebirthday;
 
-    private Integer eid;
+    private String eid;
 
     private String eedu;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date hireday;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date jobstarday;
 
     private String estate;
@@ -29,7 +37,7 @@ public class Emp {
 
     private String efrom;
 
-    public Emp(Integer eno, Integer dno, Integer jno, String ename, String esex, Date ebirthday, Integer eid, String eedu, Date hireday, Date jobstarday, String estate, String etype, String efrom) {
+    public Emp(Integer eno, Integer dno, Integer jno, String ename, String esex, Date ebirthday, String eid, String eedu, Date hireday, Date jobstarday, String estate, String etype, String efrom) {
         this.eno = eno;
         this.dno = dno;
         this.jno = jno;
@@ -43,6 +51,10 @@ public class Emp {
         this.estate = estate;
         this.etype = etype;
         this.efrom = efrom;
+    }
+
+    public Emp(Integer eno) {
+        this.eno = eno;
     }
 
     public Emp() {
@@ -97,12 +109,12 @@ public class Emp {
         this.ebirthday = ebirthday;
     }
 
-    public Integer getEid() {
+    public String getEid() {
         return eid;
     }
 
-    public void setEid(Integer eid) {
-        this.eid = eid;
+    public void setEid(String eid) {
+        this.eid = eid == null ? null : eid.trim();
     }
 
     public String getEedu() {
@@ -151,5 +163,24 @@ public class Emp {
 
     public void setEfrom(String efrom) {
         this.efrom = efrom == null ? null : efrom.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "Emp{" +
+                "eno=" + eno +
+                ", dno=" + dno +
+                ", jno=" + jno +
+                ", ename='" + ename + '\'' +
+                ", esex='" + esex + '\'' +
+                ", ebirthday=" + ebirthday +
+                ", eid='" + eid + '\'' +
+                ", eedu='" + eedu + '\'' +
+                ", hireday=" + hireday +
+                ", jobstarday=" + jobstarday +
+                ", estate='" + estate + '\'' +
+                ", etype='" + etype + '\'' +
+                ", efrom='" + efrom + '\'' +
+                '}';
     }
 }

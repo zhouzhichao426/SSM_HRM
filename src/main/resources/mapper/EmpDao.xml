@@ -9,7 +9,7 @@
       <arg column="ename" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="esex" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="ebirthday" jdbcType="DATE" javaType="java.util.Date" />
-      <arg column="eid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="eid" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="eedu" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="hireday" jdbcType="DATE" javaType="java.util.Date" />
       <arg column="jobstarday" jdbcType="DATE" javaType="java.util.Date" />
@@ -28,6 +28,12 @@
     from t_emp
     where eno = #{eno,jdbcType=INTEGER}
   </select>
+    <select id="findAll" resultType="com.oasis.hrm.dao.pojo.Emp">
+      select <include refid="Base_Column_List"/> from t_emp
+    </select>
+  <select id="findByName" resultType="com.oasis.hrm.dao.pojo.Emp">
+    select<include refid="Base_Column_List"/> from t_emp where ename like concat('%',#{ename},'%')
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_emp
     where eno = #{eno,jdbcType=INTEGER}
@@ -40,7 +46,7 @@
       )
     values (#{eno,jdbcType=INTEGER}, #{dno,jdbcType=INTEGER}, #{jno,jdbcType=INTEGER}, 
       #{ename,jdbcType=VARCHAR}, #{esex,jdbcType=VARCHAR}, #{ebirthday,jdbcType=DATE}, 
-      #{eid,jdbcType=INTEGER}, #{eedu,jdbcType=VARCHAR}, #{hireday,jdbcType=DATE}, #{jobstarday,jdbcType=DATE}, 
+      #{eid,jdbcType=VARCHAR}, #{eedu,jdbcType=VARCHAR}, #{hireday,jdbcType=DATE}, #{jobstarday,jdbcType=DATE}, 
       #{estate,jdbcType=VARCHAR}, #{etype,jdbcType=VARCHAR}, #{efrom,jdbcType=VARCHAR}
       )
   </insert>
@@ -107,7 +113,7 @@
         #{ebirthday,jdbcType=DATE},
       </if>
       <if test="eid != null" >
-        #{eid,jdbcType=INTEGER},
+        #{eid,jdbcType=VARCHAR},
       </if>
       <if test="eedu != null" >
         #{eedu,jdbcType=VARCHAR},
@@ -148,7 +154,7 @@
         ebirthday = #{ebirthday,jdbcType=DATE},
       </if>
       <if test="eid != null" >
-        eid = #{eid,jdbcType=INTEGER},
+        eid = #{eid,jdbcType=VARCHAR},
       </if>
       <if test="eedu != null" >
         eedu = #{eedu,jdbcType=VARCHAR},
@@ -178,7 +184,7 @@
       ename = #{ename,jdbcType=VARCHAR},
       esex = #{esex,jdbcType=VARCHAR},
       ebirthday = #{ebirthday,jdbcType=DATE},
-      eid = #{eid,jdbcType=INTEGER},
+      eid = #{eid,jdbcType=VARCHAR},
       eedu = #{eedu,jdbcType=VARCHAR},
       hireday = #{hireday,jdbcType=DATE},
       jobstarday = #{jobstarday,jdbcType=DATE},
