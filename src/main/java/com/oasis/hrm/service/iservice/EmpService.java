@@ -12,4 +12,5 @@ public interface EmpService {
     List<Emp> findByPage(@Param("page") int page,@Param("size") int size);
     List<Emp> findByName(String ename);
     Emp findById(Integer eno);
+    List<Emp> findByEmp(@Param("dname") String dname);
 }

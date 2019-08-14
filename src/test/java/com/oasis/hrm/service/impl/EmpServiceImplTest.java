@@ -61,4 +61,12 @@ public class EmpServiceImplTest {
         Emp emp = empService.findById(1001);
         System.err.println(emp);
     }
+
+    @Test
+    public void findByEmp() {
+        List<Emp> emps = empService.findByEmp("develop");
+        for (Emp emp : emps) {
+            System.err.println(emp);
+        }
+    }
 }

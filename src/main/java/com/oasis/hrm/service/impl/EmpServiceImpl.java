@@ -46,4 +46,9 @@ public class EmpServiceImpl implements EmpService {
     public Emp findById(Integer eno) {
         return empDao.selectByPrimaryKey(eno);
     }
+
+    @Override
+    public List<Emp> findByEmp(String dname) {
+        return empDao.findByEmp(dname);
+    }
 }

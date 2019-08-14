@@ -32,7 +32,11 @@
       select <include refid="Base_Column_List"/> from t_emp
     </select>
   <select id="findByName" resultType="com.oasis.hrm.dao.pojo.Emp">
-    select<include refid="Base_Column_List"/> from t_emp where ename like concat('%',#{ename},'%')
+    select <include refid="Base_Column_List"/> from t_emp where ename like concat('%',#{ename},'%')
+  </select>
+  <select id="findByEmp" resultType="com.oasis.hrm.dao.pojo.Emp">
+    select eno, e.dno, jno, ename, esex, ebirthday, eid, eedu, hireday, jobstarday, estate, etype,
+    efrom from t_emp e LEFT JOIN t_dept d on e.dno=d.dno where d.dname= #{dname};
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_emp

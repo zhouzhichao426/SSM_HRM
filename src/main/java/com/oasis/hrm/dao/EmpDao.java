@@ -19,6 +19,8 @@ public interface EmpDao {
     int updateByPrimaryKey(Emp record);
 
     List<Emp> findAll();
+
     List<Emp> findByName(@Param("ename") String ename);
 
+    List<Emp> findByEmp(@Param("dname") String dname);
 }

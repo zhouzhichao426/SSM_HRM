@@ -64,4 +64,14 @@ public class EmpAction {
             return new ResultJSON<List<Emp>>(404,Result.ERROR);
         }
     }
+    @RequestMapping(value = "findByEmp/{dname}")
+    public @ResponseBody ResultJSON<List<Emp>> findByEmp(@PathVariable("dname") String dname) {
+        List<Emp> emps = empService.findByEmp(dname);
+        if (emps != null && emps.size() > 0) {
+            return new ResultJSON<List<Emp>>(200,Result.SUCCESS,emps);
+        } else {
+            return new ResultJSON<List<Emp>>(404,Result.ERROR);
+        }
+    }
+
 }

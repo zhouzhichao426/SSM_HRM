@@ -47,4 +47,11 @@ public class EmpDaoTest {
             System.err.println(emp);
         }
     }
+
+    @Test
+    public void findByEmp() {
+        for (Emp emp : empDao.findByEmp("develop")) {
+            System.err.println(emp);
+        }
+    }
 }
