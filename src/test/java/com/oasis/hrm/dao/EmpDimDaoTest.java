@@ -22,8 +22,9 @@ public class EmpDimDaoTest {
         System.err.println(empDimDao.findByType("a"));
     }
 
+
     @Test
-    public void findById() {
-        System.err.println(empDimDao.findEmp(1003));
+    public void findEmp() {
+        System.err.println("*************************"+empDimDao.findEmp(1004));
     }
 }

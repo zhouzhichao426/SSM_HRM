@@ -24,6 +24,6 @@ public interface EmpDimDao {
 
     List<EmpDim> findByType(String edtype);
 
-   Emp findEmp(@Param("eno")Integer eno);
+    Emp findEmp(@Param("eno")Integer eno);
 
 }
