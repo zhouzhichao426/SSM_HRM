@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oasis.hrm.dao.HRMReportBoDao">
+    <resultMap id="BaseResultMap" type="com.oasis.hrm.dao.pojo.HRMReportBO">
+       <result property="emp.dno" column="DNO" jdbcType="INTEGER"></result>
+        <result property="personNum.mbegin" column="MBEGIN" jdbcType="INTEGER"></result>
+        <result property="personNum.mend" column="MEND" jdbcType="INTEGER"></result>
+        <result property="personNum.newemp" column="NEWEMP" jdbcType="INTEGER"></result>
+        <result property="personNum.dimemp" column="DIMEMP" jdbcType="INTEGER"></result>
+        <result property="edu.master" column="MASTER" jdbcType="INTEGER"></result>
+        <result property="edu.banchelor" column="BANCHELOR" jdbcType="INTEGER"></result>
+        <result property="edu.college" column="COLLEGE" jdbcType="INTEGER"></result>
+        <result property="edu.senior" column="SENIOR" jdbcType="INTEGER"></result>
+    </resultMap>
+
+    <select id="findByNumAndEdu" resultMap="BaseResultMap">
+        SELECT
+        hh.dno,
+        tt.mbegin,
+        tt.mend,
+        tt.newEmp,
+        tt.dimemp,
+        hh. MASTER,
+        hh.banchelor,
+        hh.college,
+        hh.senior
+        FROM
+        (
+        SELECT
+        dno,
+        sum(a) AS mbegin,
+        sum(b) AS mend,
+        sum(c) AS newemp,
+        sum(d) AS dimemp
+        FROM
+        (
+        SELECT
+        dno,
+        count(*) AS a,
+        0 AS b,
+        0 AS c,
+        0 AS d
+        FROM
+        t_emp
+        WHERE
+        hireday &lt;#{beginTime}
+        AND eno NOT IN (
+        SELECT
+        eno
+        FROM
+        t_emp_dimission
+        WHERE
+        eddate &lt;#{beginTime}
+        )
+        GROUP BY
+        dno
+        UNION ALL
+        SELECT
+        dno,
+        0 AS a,
+        count(*) AS b,
+        0 AS c,
+        0 AS d
+        FROM
+        t_emp
+        WHERE
+        hireday &lt;= #{beginTime}
+        AND eno NOT IN (
+        SELECT
+        eno
+        FROM
+        t_emp_dimission
+        WHERE
+        eddate &lt;= #{beginTime}
+        )
+        GROUP BY
+        dno
+        UNION ALL
+        SELECT
+        dno,
+        0 AS a,
+        0 AS b,
+        count(*) AS c,
+        0 AS d
+        FROM
+        t_emp
+        WHERE
+        hireday BETWEEN #{beginTime}
+        AND #{endTime}
+        GROUP BY
+        dno
+        UNION ALL
+        SELECT
+        dno,
+        0 AS a,
+        0 AS b,
+        0 AS c,
+        count(*) AS d
+        FROM
+        t_emp emp,
+        t_emp_dimission dis
+        WHERE
+        emp.eno = dis.eno
+        AND hireday BETWEEN #{beginTime}
+        AND #{endTime}
+        GROUP BY
+        dno
+        ) t
+        GROUP BY
+        t.dno
+        ) tt
+        LEFT JOIN (
+        SELECT
+        dno,
+        SUM(d) AS MASTER,
+        SUM(e) AS banchelor,
+        SUM(f) AS college,
+        SUM(g) AS senior
+        FROM
+        (
+        SELECT
+        dno,
+        COUNT(*) AS d,
+        0 AS e,
+        0 AS f,
+        0 AS g
+        FROM
+        t_emp
+        WHERE
+        hireday BETWEEN #{beginTime}
+        AND #{endTime}
+        AND eedu = 'master'
+        GROUP BY
+        dno
+        UNION ALL
+        SELECT
+        dno,
+        0 AS d,
+        COUNT(*) AS e,
+        0 AS f,
+        0 AS g
+        FROM
+        t_emp
+        WHERE
+        hireday BETWEEN #{beginTime}
+        AND #{endTime}
+        AND eedu = 'bachelor'
+        GROUP BY
+        dno
+        UNION ALL
+        SELECT
+        dno,
+        0 AS d,
+        0 AS e,
+        COUNT(*) AS f,
+        0 AS g
+        FROM
+        t_emp
+        WHERE
+        hireday BETWEEN #{beginTime}
+        AND #{endTime}
+        AND eedu = 'college'
+        GROUP BY
+        dno
+        UNION ALL
+        SELECT
+        dno,
+        0 AS d,
+        0 AS e,
+        0 AS f,
+        COUNT(*) AS g
+        FROM
+        t_emp
+        WHERE
+        hireday BETWEEN #{beginTime}
+        AND #{endTime}
+        AND eedu = 'senior'
+        GROUP BY
+        dno
+        ) h
+        GROUP BY
+        h.dno
+        ) hh ON tt.dno = hh.dno
+        WHERE
+        hh.dno IS NOT NULL
+        GROUP BY
+        tt.dno
+    </select>
+</mapper>

@@ -36,7 +36,6 @@ public class DimReportServiceImpl implements DimReportService {
             end = last;
             System.err.println(end+"----------------------------------");
             return dimReportDao.findDim(begin, end);
-
         }
     }
 }
